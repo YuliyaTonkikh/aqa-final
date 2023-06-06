@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:13.10-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=toor
+      - POSTGRES_USER=root
+      - POSTGRES_DB=application_aqa_shop
+
+  mysql:
+    image: mysql:8.0.33
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=application_aqa_shop
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=toor
+
+  gate-simulator:
+    image: node:8
+    user: node
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./gate-simulator:/home/node/app
+    ports:
+      - '9999:9999'
+    command: npm start
